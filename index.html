@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<!-- Иконка для iPhone: стоит первой, полный адрес, точный размер 180×180 -->
+<link rel="apple-touch-icon" sizes="180x180" href="https://prostranstvo-center.github.io/pro-stav/apple-touch-icon.png?v=1">
+<meta name="apple-mobile-web-app-title" content="Про-Ставь">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Про-Ставь</title>
+<meta name="theme-color" content="#078f95">
+<link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
+<script>
+  // Адрес приложения «Про-Ставь» (Google Apps Script, ссылка /exec)
+  var APP_URL = 'https://script.google.com/macros/s/AKfycbz5R66pdOpvgKuuEGF5I8YfHKCXzKUkfpKVRSGhODSUMQQOZGX-3ZXAO5Dy2Bc_0hMl/exec';
+
+  var IOS = /iPad|iPhone|iPod/.test(navigator.userAgent) ||
+            (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+  var FROM_ICON = /[?&]app=1/.test(location.search) ||
+                  (window.matchMedia && matchMedia('(display-mode: standalone)').matches);
+
+  if (FROM_ICON) {
+    document.documentElement.className = 'go';
+    location.replace(APP_URL);
+  } else if (!IOS) {
+    // Манифест нужен только Android: на iPhone он мешает иконке и заставляет заново входить в Google.
+    var l = document.createElement('link'); l.rel = 'manifest'; l.href = 'manifest.webmanifest';
+    document.head.appendChild(l);
+    if ('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js').catch(function(){});
+  }
+</script>
+<style>
+  *{box-sizing:border-box}
+  html,body{margin:0;min-height:100%}
+  body{min-height:100vh;color:#fff;font:16px/1.45 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;
+       background:linear-gradient(135deg,#00d6e2 0%,#078f95 55%,#05484c 100%);
+       display:flex;flex-direction:column;align-items:center;justify-content:center;padding:32px 20px;text-align:center}
+  .ring{width:120px;height:120px;border:6px solid #fff;border-radius:50%;position:relative;margin:0 auto 22px}
+  .ring:after{content:"";position:absolute;left:50%;top:50%;width:16px;height:16px;margin:-8px;background:#fff;border-radius:50%}
+  h1{margin:0;line-height:0}
+  h1 svg{height:34px;width:auto}
+  .tag{opacity:.85;margin:10px 0 28px;letter-spacing:.3em;font-size:12px;text-transform:uppercase}
+  .btn{display:inline-block;background:#fff;color:#066f74;text-decoration:none;font-weight:600;font-size:17px;
+       border:0;border-radius:14px;padding:15px 26px;margin:6px;min-width:250px;cursor:pointer}
+  .btn.ghost{background:transparent;color:#fff;border:1.5px solid rgba(255,255,255,.8)}
+  .card{max-width:380px;margin:26px auto 0;background:rgba(0,0,0,.18);border-radius:16px;padding:16px 18px;text-align:left;font-size:15px}
+  .card b.h{display:block;margin-bottom:6px}
+  .card ol{margin:0;padding-left:20px}
+  .card li{margin:4px 0}
+  #go{display:none}
+  .go #home{display:none}
+  .go #go{display:block}
+  .ios .android, .android-dev .ios{display:none}
+</style>
+</head>
+<body>
+  <div class="ring"></div>
+  <h1 aria-label="Про-Ставь">
+    <svg viewBox="0 0 288 40" fill="none" stroke="#fff" stroke-width="3.6"><path d="M2,38 V2 H24 V38"/><path d="M34,38 V2 H47 A9,9 0 0 1 47,20 H34"/><circle cx="84" cy="20" r="18.2"/><circle cx="84" cy="20" r="3.4" fill="#fff" stroke="none"/><path d="M112,20 H124"/><path d="M156,2 H152 A18,18 0 0 0 152,38 H156"/><path d="M166,2 H188 M177,2 V38"/><path d="M198,38 L209,2 L220,38 M202,26 H216"/><path d="M232,38 V2 H244 A8,8 0 0 1 244,18 H232 M232,18 H245 A10,10 0 0 1 245,38 H232"/><path d="M266,2 V38 H277 A9,9 0 0 0 277,20 H266"/></svg>
+  </h1>
+  <div class="tag">отметки по темам · Пространство</div>
+
+  <div id="go">Открываю «Про-Ставь»…</div>
+
+  <div id="home">
+    <button class="btn" id="install" style="display:none">Установить на телефон</button><br>
+    <a class="btn ghost" id="open" href="#">Открыть «Про-Ставь»</a>
+
+    <div class="card" id="howto">
+      <div class="android">
+        <b class="h">Как поставить иконку на главный экран</b>
+        <ol>
+          <li>Откройте эту страницу в Chrome (не внутри Telegram: «⋯» → «Открыть в браузере»).</li>
+          <li>Нажмите <b>⋮</b> вверху справа.</li>
+          <li>Выберите «Установить приложение» или «Добавить на главный экран».</li>
+        </ol>
+      </div>
+      <div class="ios">
+        <b class="h">Как поставить иконку на экран «Домой»</b>
+        <ol>
+          <li>Откройте эту страницу в Safari (не внутри Telegram: «⋯» или компас → «Открыть в Safari»).</li>
+          <li>Нажмите «Поделиться» — квадрат со стрелкой вверх.</li>
+          <li>Выберите «На экран „Домой“» и нажмите «Добавить».</li>
+        </ol>
+      </div>
+    </div>
+  </div>
+
+<script>
+  document.body.className = IOS ? 'ios' : 'android-dev';
+  document.getElementById('open').href = APP_URL;
+
+  // iPhone сохраняет на экран «Домой» текущий адрес страницы.
+  // Подменяем его на «?app=1», чтобы ярлык сразу открывал приложение в Safari.
+  if (IOS && !FROM_ICON) { try { history.replaceState(null, '', location.pathname + '?app=1'); } catch (e) {} }
+
+  var deferred = null;
+  window.addEventListener('beforeinstallprompt', function (e) {
+    e.preventDefault(); deferred = e;
+    document.getElementById('install').style.display = 'inline-block';
+  });
+  document.getElementById('install').onclick = function () {
+    if (!deferred) return;
+    deferred.prompt();
+    deferred.userChoice.finally(function(){ deferred = null; document.getElementById('install').style.display = 'none'; });
+  };
+  window.addEventListener('appinstalled', function () {
+    document.getElementById('howto').innerHTML = '<b class="h">Готово!</b>Иконка «Про-Ставь» появилась на главном экране. Открывайте приложение с неё.';
+  });
+</script>
+</body>
+</html>
